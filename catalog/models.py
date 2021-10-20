@@ -1,5 +1,6 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
+from django.urls import reverse
 
 ATTRIBUTE_TYPE_CHOICES = [
     ('ST', 'static'),
@@ -17,7 +18,7 @@ ATTRIBUTE_VALUE_TYPE_CHOICES = [
 
 class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название')
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, related_name='category')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='category')
     slug = models.SlugField()
 
     class Meta:
@@ -32,7 +33,7 @@ class Category(models.Model):
 class Product(models.Model):
     vendor_code = models.CharField(max_length=50)
     name = models.CharField(max_length=300)
-    category = models.ForeignKey(Category, related_name='product')
+    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
     price = MoneyField(max_digits=15, decimal_places=2, default_currency='RUB')
     description = models.TextField()
     stock = models.PositiveIntegerField()
