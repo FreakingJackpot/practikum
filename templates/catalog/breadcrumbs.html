@@ -1,0 +1,11 @@
+<nav>
+    <div class="breadcrumb">
+        <a href="/">home</a> /
+        {% for node in nodes %}
+            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a> /
+        {% endfor %}
+        {% if object != None %}
+            {{ object }}
+        {% endif %}
+    </div>
+</nav>

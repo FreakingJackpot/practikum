@@ -1,7 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
+{% load mptt_tags %}
+
 {% block content %}
-    {% for category in categories %}
-        <a href="{% url 'sub-catalog' category.slug %}">{{ category.name }}</a>
-    {% endfor %}
+    {% recursetree object_list %}
+        <li>
+            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+            {% if not node.is_leaf_node %}
+                <ul class="children-{{ node.level }}">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
 {% endblock %}
 
