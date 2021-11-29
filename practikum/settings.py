@@ -1,4 +1,5 @@
 from pathlib import Path
+from django.db.models import Prefetch
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -47,6 +48,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'catalog.context_processors.categories',
             ],
         },
     },
@@ -103,7 +105,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+# STATIC_ROOT = str(BASE_DIR) + '/static/'
+STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+MEDIA_ROOT = str(BASE_DIR) + '/media/'
+MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -120,3 +125,5 @@ def show_toolbar(request):
 
 
 SHOW_TOOLBAR_CALLBACK = show_toolbar
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'

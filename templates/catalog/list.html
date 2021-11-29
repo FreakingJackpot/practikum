@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block header_image %}
+    <img class="header__image" src="../../static/catalog/images/content/header__image-about.jpg" alt="">
+{% endblock %}
+{% block content %}
+    <main class="main">
+        <section class="category">
+            <div class="category__title"><span>{{ category.name }}</span></div>
+            <div class="category__items">
+                {% for product in object_list %}
+                    <a class="category__item" href="{{ product.get_absolute_url }}">
+                        <img class="category__item-img" src="{{ product.image.all.0.url }}" alt="">
+                        <h3 class="category__item-title">{{ product.name }}</h3>
+                        <div class="category__item-price">{{ product.price }} руб.</div>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+{% endblock %}
+

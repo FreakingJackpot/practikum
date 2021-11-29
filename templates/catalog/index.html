@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block menu %}
+    <nav class="menu">
+        <ul class="menu__list">
+            <li class="menu__list-item">
+                <a class="menu__list-link menu__list-active" href="{% url 'index' %}">Главная </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'about' %}">О нас </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'delivery' %}">Доставка и оплата </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'contact' %}">Контакты </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block content %}
+    <main class="main">
+        {% if sales %}
+            <div class="sales">
+                <img class="title-img" src="../../static/catalog/images/title/title-sale.svg" alt="">
+                <div class="slider">
+                    {% for page in sales %}
+                        <div class="slider-content">
+                            <div class="slider__inner">
+                                {% for product in page %}
+                                    <a class="slider__item" href="product.html">
+                                        <img class="slider-img" src="{{ product.image.url }}" alt="">
+                                        <h4 class="slider-title">
+                                            {{ product.obj.name }}
+                                        </h4>
+                                        <div class="slider-price">
+                                            <p class="slider-oldPrice"><s>{{ product.obj.price }} руб.</s></p>
+                                            <p class="slider-newPrice">{{ product.obj.discount_price }} руб.</p>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="catalog">
+            <div class="catalog-items">
+                {% for category in category_list %}
+                    <a class="catalog-item" href="{{ category.get_absolute_url }}">
+                        <img class="catalog-img" src="{{ category.image.url }}" alt="">
+                        <div class="catalog-info">
+                            <h3 class="catalog-title">{{ category.name }}</h3>
+                            <img class="catalog-add" src="../../static/catalog/images/add.png" alt="">
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <img class="title-img" src="../../static/catalog/images/title/title-map.svg" alt="">
+        <img src="../../static/catalog/images/map.jpg" alt="" class="image-map">
+    </main>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <nav class="menu">
+        <ul class="menu__list">
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'index' %}">Главная </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'about' %}">О нас </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link menu__list-active" href="{% url 'delivery' %}">Доставка и оплата </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'contact' %}">Контакты </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block header_image %}
+    <img class="header__image" src="../../static/catalog/images/content/header__image-delivery.jpg" alt="">
+{% endblock %}
+
+{% block content %}
+    <main class="main">
+        <section class="delivery">
+            <div class="delivery__items">
+                <div class="delivery__item">
+                    <img class="delivery__item-img" src="../../static/catalog/images/delivery-cash.png" alt="">
+                    <p class="delivery__item-text">
+                        При выборе оплаты наличными Вам нужно дождаться водителей, осмотреть коробки, подписать Акт
+                        приема-передачи и только после этого отдать деньги. Напоминаем, что стоимость доставки в общую
+                        сумму не
+                        входит, ее нужно оплачивать отдельно.
+                    </p>
+                </div>
+                <div class="delivery__item">
+                    <img class="delivery__item-img" src="../../static/catalog/images/delivery-money.png" alt="">
+                    <p class="delivery__item-text">
+                        Банковская карта означает, что Вы готовы расплатиться с помощью терминала - сообщите нам об этом
+                        заранее,
+                        чтобы мы
+                        отправили по Вашему адресу машину, оборудованную этим аппаратом.
+                    </p>
+                </div>
+                <div class="delivery__item">
+                    <img class="delivery__item-img" src="../../static/catalog/images/delivery-card.png" alt="">
+                    <p class="delivery__item-text">
+                        Безналичный расчет удобен для юридических организаций - при всей необходимости отчетов и
+                        справок, мы
+                        подготавливаем для
+                        Вас счет с указанием официальных реквизитов компании, полной суммы покупки. Вы оплачиваете его,
+                        и как
+                        только средства
+                        поступают на банковский счет, к Вам выезжает машина доставки!
+
+                    </p>
+                </div>
+            </div>
+            <div class="installment">
+                <div class="installment__inner">
+                    <h3 class="installment-title">
+                        Об оформлении рассрочки
+                    </h3>
+                    <p class="installment-text">
+                        Для оформления рассрочки выберите способ оплаты банковской картой. Оформляя рассрочку на 3
+                        месяца, Вы
+                        переплачиваете 0%!
+                        В случае оформления на 6-12 месяцев переплата с 4 месяца составит 3,9%.
+                        <br> Заполнение анкеты займет не более 2х минут. Не надо никуда ходить или ждать курьера.
+                        Решение Вы
+                        узнаете сразу, после
+                        заполнения анкеты.
+                        <br> Обратите внимание, данный вид платежа доступен только для граждан России от 18 до 65 лет с
+                        действующим паспортом и
+                        постоянным доходом.
+                    </p>
+                </div>
+            </div>
+            <div class="delivery__info">
+                <img class="title-img" src="../../static/catalog/images/title/delivery-img.svg" alt="">
+                <p class="delivery__info-text">Наша компания осуществляет доставку в пределах Ульяновска и Ульяновской
+                    области. В Ульяновске транспортировка до
+                    подъезда заказчика является бесплатной.</p>
+                <p class="delivery__info-text">При доставке за город стоимость будет составлять 35 рублей за километр до
+                    подъезда.</p>
+                <p class="delivery__info-text">Сборка мебели включает 10% от стоимости.</p>
+                <p class="delivery__info-text">Водитель-экспедитор доставит груз, передаст его заказчику и предоставит
+                    все
+                    сопроводительные документы: счет-фактуру,
+                    накладные, гарантийные обязательства фабрики-изготовителя (талон). Клиент оплачивает товар и его
+                    доставку.
+                </p>
+                <p class="delivery__info-text"><b> Обратите внимание!</b> При сборке изделий убедитесь в отсутствии
+                    трещин на
+                    стеклянных и зеркальных деталях.</p>
+            </div>
+            <img class="delivery-table" src="../../static/catalog/images/delivery-table.jpg" alt="">
+        </section>
+    </main>
+{% endblock %}

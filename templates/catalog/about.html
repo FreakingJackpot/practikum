@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block menu %}
+    <nav class="menu">
+        <ul class="menu__list">
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'index' %}">Главная </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link menu__list-active" href="{% url 'about' %}">О нас </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'delivery' %}">Доставка и оплата </a>
+            </li>
+            <li class="menu__list-item">
+                <a class="menu__list-link" href="{% url 'contact' %}">Контакты </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block header_image %}
+    <img class="header__image" src="../../static/catalog/images/content/header__image-about.jpg" alt="">
+{% endblock %}
+{% block content %}
+    <main class="main">
+
+        <section class="about">
+            <p class="about-text">Наша компания работает на рынке производства мебели в Ульяновске и Ульяновской области
+                уже
+                больше 6 лет. Мы
+                изготавливаем шкафы, кухни, детские, спальни, гардеробные, а также торговую и офисную мебель.</p>
+            <img class="about-img" src="../../static/catalog/images/content/about1.jpg" alt="">
+            <img class="about-img" src="../../static/catalog/images/content/about2.jpg" alt="">
+            <p class="about-text about-text__bottom"><span></span><b>Почему так часто нужна мебель
+                назаказ?</b><br><br>Особенности архитектурной планировки не всегда позволяют установить стандартное
+                изделие
+                , например : потолки ниже 2,5 м,
+                одна из стен полукруглая или идет на скос и так далее. В этом случае мы меняем размеры.
+                Если хочется создать максимально функциональное пространство , мы вносим изменения , подходящие именно
+                вам, в
+                конструкцию. <br>
+                А самое главное изделие будет оригинальным и непохожим ни на какую другую мебель.</p>
+        </section>
+        <section class="about__advantages">
+            <img class="title-img" src="../../static/catalog/images/title/title-about.svg" alt="">
+            <div class="about__items">
+                <div class="about__item">
+                    <h4 class="about__item-title">Удобство</h4>
+                    <div class="about__item-text">Консультация по телефону по всем вопросам</div>
+                </div>
+                <img class="about__item-img" src="../../static/catalog/images/about__advantages-img.png" alt="">
+                <div class="about__item">
+                    <h4 class="about__item-title">Надежность</h4>
+                    <div class="about__item-text">Официальная гарантия на продукцию 5 лет</div>
+                </div>
+            </div>
+            <div class="about__items">
+                <div class="about__item">
+                    <h4 class="about__item-title">Качество</h4>
+                    <div class="about__item-text">Собственное производство без посредников</div>
+                </div>
+                <img class="about__item-img" src="../../static/catalog/images/about__advantages-img2.png" alt="">
+                <div class="about__item">
+                    <h4 class="about__item-title">Дизайн</h4>
+                    <div class="about__item-text">Разработка уникального дизайн-проекта</div>
+                </div>
+            </div>
+            <img class="title-img" src="../../static/catalog/images/title/title-line.svg" alt="">
+        </section>
+        <section class="about">
+            <p class="about-text">К нам обращаются, чтобы заказать удобную мебель индивидуальных размеров для помещений
+                различного назначения. Мы поможем
+                вам в выборе модели, подборе цвета и материала, что значительно сэкономит ваше время.</p>
+            <img class="about-img" src="../../static/catalog/images/content/about3.jpg" alt="">
+            <img class="about-img" src="../../static/catalog/images/content/about4.jpg" alt="">
+            <p class="about-text about-text__bottom">Специально для вас мы создадим дизайн-проект, который позволит вам
+                наглядно оценить преимущества выбранного образца, а
+                так же более точно определиться с фасадом.</p>
+        </section>
+    </main>
+{% endblock %}
