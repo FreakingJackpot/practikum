@@ -150,4 +150,3 @@ SHOW_TOOLBAR_CALLBACK = show_toolbar
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 django_heroku.settings(locals())
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

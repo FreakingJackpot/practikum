@@ -23,8 +23,8 @@ ORDER_STATUS_CHOICES = (
 class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название')
     slug = models.SlugField()
-    image = models.OneToOneField('Image', on_delete=models.CASCADE, null=True, blank=True)
-    sale_image = models.OneToOneField('Image', on_delete=models.CASCADE, null=True, blank=True,
+    image = models.OneToOneField('Image', on_delete=models.SET_NULL, null=True, blank=True)
+    sale_image = models.OneToOneField('Image', on_delete=models.SET_NULL, null=True, blank=True,
                                       related_name='category_sale_img')
 
     class Meta:
