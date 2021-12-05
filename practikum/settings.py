@@ -122,6 +122,7 @@ if config('S3', False):
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'practikum.storage_backends.PublicMediaStorage'
+    print('kek')
 
 else:
     STATIC_URL = '/static/'
