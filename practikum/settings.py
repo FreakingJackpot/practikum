@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from django.db.models import Prefetch
+import django_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -126,3 +128,4 @@ def show_toolbar(request):
 SHOW_TOOLBAR_CALLBACK = show_toolbar
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
+django_heroku.settings(locals())
