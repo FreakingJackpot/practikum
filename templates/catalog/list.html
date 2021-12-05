@@ -11,7 +11,12 @@
                     <a class="category__item" href="{{ product.get_absolute_url }}">
                         <img class="category__item-img" src="{{ product.image.all.0.url }}" alt="">
                         <h3 class="category__item-title">{{ product.name }}</h3>
-                        <div class="category__item-price">{{ product.price }} руб.</div>
+                        {% if product.discount_price %}
+                            <div class="category__item-price"><s>{{ product.price }} руб.</s></div>
+                            <div class="category__item-discount_price">{{ product.discount_price }} руб.</div>
+                        {% else %}
+                            <div class="category__item-price">{{ product.price }} руб.</div>
+                        {% endif %}
                     </a>
                 {% endfor %}
             </div>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block menu %}
     <nav class="menu">
@@ -70,22 +71,20 @@
                 </div>
             </div>
         </section>
-        <section class="sale">
-            <img class="title-img" src="../../static/catalog/images/title/title-sale.svg" alt="">
-            <div class="slider__sale">
-                <a class="slider__sale-item" href="#">
-                    <btn class="slider__sale-btn">Перейти</btn>
-                    <img class="slider__sale-img" src="../../static/catalog/images/slider/sales-slider-1.jpg" alt="">
-                </a>
-                <a class="slider__sale-item" href="#">
-                    <btn class="slider__sale-btn">Перейти</btn>
-                    <img class="slider__sale-img" src="../../static/catalog/images/slider/sales-slider-2.jpg" alt="">
-                </a>
-                <a class="slider__sale-item" href="#">
-                    <btn class="slider__sale-btn">Перейти</btn>
-                    <img class="slider__sale-img" src="../../static/catalog/images/slider/sales-slider-3.jpg" alt="">
-                </a>
-            </div>
-        </section>
+        {% if sales_categories %}
+            <section class="sale">
+                <img class="title-img" src="{% static "catalog/images/title/title-sale.svg" %}" alt="">
+                <div class="slider__sale">
+                    {% for sales_category in sales_categories %}
+                        <a class="slider__sale-item"
+                           href="{% url 'catalog:product_list' slug=sales_category.slug %}?sale=True">
+                            <btn class="slider__sale-btn">Перейти</btn>
+                            <img class="slider__sale-img" src="{{ sales_category.sale_image.url }}" alt="">
+                        </a>
+                    {% endfor %}
+                    </a>
+                </div>
+            </section>
+        {% endif %}
     </main>
 {% endblock %}

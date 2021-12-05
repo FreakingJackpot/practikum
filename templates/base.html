@@ -37,8 +37,8 @@
         {% endblock %}
     </div>
     <div class="banner">
-        <a class="banner__image" href="#">
-            <img src="/static/catalog/images/logo_2.svg" alt="mebelend">
+        <a class="banner__image" href="{% url 'index' %}">
+            <img src="{% static 'catalog/images/logo_2.svg' %}" alt="mebelend">
         </a>
     </div>
     <nav class="nav">
@@ -51,7 +51,7 @@
         </ul>
     </nav>
     {% block header_image %}
-        <img class="header__image" src="/static/catalog/images/content/header__image.jpg" alt="">
+        <img class="header__image" src="{% static 'catalog/images/content/header__image.jpg' %}" alt="">
     {% endblock %}
 </header>
 <div class="wrapper">
@@ -59,7 +59,7 @@
     {% endblock %}
     <footer class="footer">
         <div class="footer__inner">
-            <img class="footer__img" src="/static/catalog/images/footer__img.png" alt="">
+            <img class="footer__img" src="{% static 'catalog/images/footer__img.png' %}" alt="">
             <div class="feedback">
                 <h6 class="feedback__title">Оставьте заявку и мы перезвоним вам</h6>
                 <a href="#" class="open-popup">
@@ -67,33 +67,35 @@
                 </a>
                 <div class="popup">
                     <div class="popup__content">
-                        <img class="close-popup" src="/static/catalog/images/close.svg" alt="">
-                        <form action="">
+                        <img class="close-popup" src="{% static 'catalog/images/close.svg' %}" alt="">
+                        <form action="{% url 'process_form' %}" method="post">
+                            {% csrf_token %}
                             <h3 class="popup__title">Оставить заявку</h3>
                             <div class="popup__item">
                                 <h5 class="popup__subtitle">Телефон</h5>
-                                <input class="popup__input-bottom" type="tel">
+                                <input class="popup__input-bottom" type="tel" name="phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$">
                             </div>
                             <div class="popup__item">
                                 <h5 class="popup__subtitle">Имя</h5>
-                                <input class="popup__input-bottom" type="text">
+                                <input class="popup__input-bottom" type="text" name="name">
                             </div>
                             <h5 class="popup__subtitle">Комментарий</h5>
-                            <textarea name="komment"></textarea>
+                            <textarea name="comment"></textarea>
+                            <input type="hidden" name="next" value="{{ request.path }}">
                             <input value="Отправить заявку" type="submit">
                         </form>
                     </div>
                 </div>
             </div>
-            <img class="footer__img2" src="/static/catalog/images/footer__img2.png" alt="">
+            <img class="footer__img2" src="{% static 'catalog/images/footer__img2.png' %}" alt="">
         </div>
-        <img class="footer__photo" src="/static/catalog/images/content/footer_image.jpg" alt="">
+        <img class="footer__photo" src="{% static 'catalog/images/content/footer_image.jpg' %}" alt="">
     </footer>
 </div>
 <div class="footer__content">
     <div class="footer__logo">
-        <img class="footer__logo-image" src="/static/catalog/images/logo.png" alt="">
-        <img class="footer__logo-image2" src="/static/catalog/images/footer_logo.svg" alt="">
+        <img class="footer__logo-image" src="{% static 'catalog/images/logo.png' %}" alt="">
+        <img class="footer__logo-image2" src="{% static 'catalog/images/footer_logo.svg' %}" alt="">
     </div>
     <div class="footer__contact">
         <div class="contact">
@@ -106,11 +108,11 @@
             <h6 class="social__title">Присоединяйтесь к нам в социальных сетях</h6>
             <div class="social__link">
                 <a href="viber://add?number='number'" class="social__link-viber">
-                    <img class="social__icon-viber" src="/static/catalog/images/viber.png" alt="">
+                    <img class="social__icon-viber" src="{% static 'catalog/images/viber.png' %}" alt="">
                     Viber
                 </a>
                 <a href="https://wa.me/89093584949" class="social__link-whatsapp">
-                    <img class="social__icon-whatsapp" src="/static/catalog/images/whatsapp.png" alt="">
+                    <img class="social__icon-whatsapp" src="{% static 'catalog/images/whatsapp.png' %}" alt="">
                     WhatsApp
                 </a>
             </div>
@@ -118,8 +120,8 @@
     </div>
 </div>
 </div>
-
 <script src="/static/catalog/js/main.min.js"></script>
+
 </body>
 
 </html>

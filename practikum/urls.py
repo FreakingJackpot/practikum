@@ -4,7 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
 
-from catalog.views import IndexTemplateView, AboutTemplateView, DeliveryTemplateView, ContactTemplateView
+from catalog.views import IndexTemplateView, AboutTemplateView, DeliveryTemplateView, ContactTemplateView, \
+    process_request_form
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -14,4 +15,5 @@ urlpatterns = [
                   path('contact/', ContactTemplateView.as_view(), name='contact'),
                   path('catalog/', include('catalog.urls')),
                   path('__debug__/', include(debug_toolbar.urls)),
+                  path('process_form/', process_request_form, name='process_form'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

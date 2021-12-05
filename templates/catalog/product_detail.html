@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <main class="main">
+        <section class="product">
+            <div class="product-top"></div>
+            <div class="product__title"><span>{{ product.name }}</span></div>
+            <div class="product__inner">
+                <div class="product__item">
+                    <img class="product__item-img" src="{{ product.image.all.0.url }}" alt="">
+                    <div class="product__item-info">
+                        <div class="product__item-top">
+                            <img class="product__item-icon" src="/static/catalog/images/product-icon.svg" alt="">
+                            <p class="product__item-text">Сборка и доставка за несколько дней</p>
+                        </div>
+                        {% if product.discount_price %}
+                            <p class="product__item-price">{{ product.discount_price }} руб.</p>
+                        {% else %}
+                            <p class="product__item-price">{{ product.price }} руб.</p>
+                        {% endif %}
+                        <div class="product__item-colors">
+                            Цвет:
+                            {% for color in product.color.all %}
+                                <img class="product__item-color" src="{{ color.preview.url }}" alt="">
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <ol class="product__info">
+                    <h2 class="product__info-title">Характеристики:</h2>
+                    <li class="product__inform">
+                        <h3 class="product__inform-title">
+                            Артикул
+                        </h3>
+                        <p class="product__inform-text">
+                            {{ product.vendor_code }}
+                        </p>
+                    </li>
+                    <li class="product__inform">
+                        <h3 class="product__inform-title">
+                            Производитель
+                        </h3>
+                        <p class="product__inform-text">
+                            {{ product.manufacturer }}
+                        </p>
+                    </li>
+                    <li class="product__inform">
+                        <h3 class="product__inform-title">
+                            Цвет
+                        </h3>
+                        <p class="product__inform-text">
+                            {{ product.get_colors }}
+                        </p>
+                    </li>
+                    {% for value in values %}
+                        <li class="product__inform">
+                            <h3 class="product__inform-title">
+                                {{ value.attribute.name }}
+                            </h3>
+                            <p class="product__inform-text">
+                                {{ value.value }}
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </section>
+        {% if sales_categories %}
+            <section class="sale">
+                <img class="title-img" src="{% static "catalog/images/title/title-sale.svg" %}" alt="">
+                <div class="slider__sale">
+                    {% for sales_category in sales_categories %}
+                        <a class="slider__sale-item"
+                           href="{% url 'catalog:product_list' slug=sales_category.slug %}?sale=True">
+                            <btn class="slider__sale-btn">Перейти</btn>
+                            <img class="slider__sale-img" src="{{ sales_category.sale_image.url }}" alt="">
+                        </a>
+                    {% endfor %}
+                    </a>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+{% endblock %}
