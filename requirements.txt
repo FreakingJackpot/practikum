@@ -1,6 +1,8 @@
 asgiref==3.4.1
 autopep8==1.5.7
 Babel==2.9.1
+boto3==1.20.20
+botocore==1.23.20
 certifi==2021.10.8
 charset-normalizer==2.0.7
 dj-database-url==0.5.0
@@ -8,11 +10,13 @@ Django==3.2.8
 django-debug-toolbar==3.2.2
 django-heroku==0.3.1
 django-js-asset==1.2.2
+django-storages==1.12.3
 et-xmlfile==1.1.0
 gprof2dot==2021.2.21
 gunicorn==20.1.0
 idna==3.3
 jinja2==3.0.2
+jmespath==0.10.0
 markupsafe==2.0.1
 openpyxl==3.0.9
 Pillow==8.4.0
@@ -22,9 +26,11 @@ py-moneyed==1.2
 pycodestyle==2.8.0
 pygments==2.10.0
 python-dateutil==2.8.2
+python-decouple==3.5
 pytils==0.3
 pytz==2021.3
 requests==2.26.0
+s3transfer==0.5.0
 six==1.16.0
 sqlparse==0.4.2
 toml==0.10.2
