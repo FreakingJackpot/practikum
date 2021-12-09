@@ -73,15 +73,16 @@
                             <h3 class="popup__title">Оставить заявку</h3>
                             <div class="popup__item">
                                 <h5 class="popup__subtitle">Телефон</h5>
-                                <input class="popup__input-bottom" type="tel" name="phone" pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$">
+                                <input class="popup__input-bottom" type="tel" name="phone"
+                                       pattern="^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$" required>
                             </div>
                             <div class="popup__item">
                                 <h5 class="popup__subtitle">Имя</h5>
-                                <input class="popup__input-bottom" type="text" name="name">
+                                <input class="popup__input-bottom" type="text" name="name" required>
                             </div>
                             <h5 class="popup__subtitle">Комментарий</h5>
                             <textarea name="comment"></textarea>
-                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <input type="hidden" name="next" value="{{ request.path }}" required>
                             <input value="Отправить заявку" type="submit">
                         </form>
                     </div>
