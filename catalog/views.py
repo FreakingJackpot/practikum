@@ -74,7 +74,8 @@ class ProductDetailView(DetailView):
         values = AttributeValue.objects.select_related('attribute').filter(product=product, value__isnull=False)
 
         sales_categories = Category.objects.select_related('sale_image').filter(product__discount_price__gt=0,
-                                                                                product__active=True)
+                                                                                product__active=True,
+                                                                                sale_image__isnull=False)
 
         return self.render_to_response({'product': product, 'values': values, 'sales_categories': sales_categories})
 
