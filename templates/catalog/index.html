@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block menu %}
     <nav class="menu">
         <ul class="menu__list">
@@ -28,7 +29,18 @@
                             <div class="slider__inner">
                                 {% for product in page %}
                                     <a class="slider__item" href="{{ product.obj.get_absolute_url }}">
-                                        <img class="slider-img" src="{{ product.image.image.url }}" alt="" >
+                                        {% if product.image.image|is_portrait %}
+                                            {% thumbnail product.image.image "230x330" as im %}
+                                                <img class="slider-img" src="{{ im.url }}" alt="">
+                                            {% endthumbnail %}
+                                        {% else %}
+                                            {% thumbnail product.image.image geometry as im %}
+                                                <img class="slider-img" src="{{ im.url }}"
+                                                     width="{% widthratio im.x 2 1 %}"
+                                                     height="{% widthratio im.y 2 1 %}" alt="">
+                                            {% endthumbnail %}
+                                        {% endif %}
+                                        <img class="slider-img" src="{{ product.image.image.url }}" alt="">
                                         <h4 class="slider-title">
                                             {{ product.obj.name }}
                                         </h4>
