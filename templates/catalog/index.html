@@ -28,7 +28,7 @@
                             <div class="slider__inner">
                                 {% for product in page %}
                                     <a class="slider__item" href="{{ product.obj.get_absolute_url }}">
-                                        <img class="slider-img" src="{{ product.image.image.url }}" alt="" >
+                                        <img class="slider-img" src="{{ product.image.image.url }}" width="230" height="195" alt="" >
                                         <h4 class="slider-title">
                                             {{ product.obj.name }}
                                         </h4>
