@@ -177,6 +177,7 @@ class Order(models.Model):
     status = models.CharField(max_length=50, verbose_name='Статус заказа', choices=ORDER_STATUS_CHOICES,
                               default='UNCOMPLETED')
     products = models.ManyToManyField(Product, verbose_name='Заказанные продукты')
+    date = models.DateField(auto_now=True)
 
     class Meta:
         db_table = 'orders'
