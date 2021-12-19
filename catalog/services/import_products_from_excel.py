@@ -104,6 +104,6 @@ class ExcelProductImporter:
 
     def _get_colors(self, item):
         colors = []
-        for name in item['Цвет'].split('/').strip():
-            colors.append(self.__get_model_obj(Color, name=name))
+        for name in item['Цвет'].split('/'):
+            colors.append(self.__get_model_obj(Color, name=name.strip()))
         return colors
