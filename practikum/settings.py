@@ -151,3 +151,4 @@ django_heroku.settings(locals())
 
 USE_L10N = True
 USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = ' '
