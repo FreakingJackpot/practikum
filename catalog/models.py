@@ -48,7 +48,7 @@ class Category(models.Model):
 
 class Image(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название', null=True, blank=True)
-    image = models.FileField(upload_to='images/', verbose_name='Изображение')
+    image = models.ImageField(upload_to='images/', verbose_name='Изображение')
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар', null=True,
                                 related_name='image', blank=True)
 
