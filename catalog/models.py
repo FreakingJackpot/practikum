@@ -58,7 +58,10 @@ class Image(models.Model):
         verbose_name_plural = 'Изображения'
 
     def __str__(self):
-        return self.name
+        if self.name:
+            return self.name
+
+        return self.image.name
 
 
 class Color(models.Model):
