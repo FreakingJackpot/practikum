@@ -9,7 +9,7 @@
             <div class="category__items">
                 {% for product in object_list %}
                     <a class="category__item" href="{{ product.get_absolute_url }}">
-                        <img class="category__item-img" src="{{ product.image.all.0.url }}" alt="">
+                        <img class="category__item-img" src="{{ product.image.all.0.image_path.url }}" alt="">
                         <h3 class="category__item-title">{{ product.name }}</h3>
                         {% if product.discount_price %}
                             <div class="category__item-price"><s>{{ product.price }} руб.</s></div>
