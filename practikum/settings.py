@@ -21,7 +21,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'storages',
-    'sorl.thumbnail',
     'debug_toolbar',
 
 ]
