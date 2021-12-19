@@ -15,6 +15,7 @@
                             <p class="product__item-text">Сборка и доставка за несколько дней</p>
                         </div>
                         {% if product.discount_price %}
+                            <s><p class="product__item-price_old">{{ product.price }} руб.</p></s>
                             <p class="product__item-price">{{ product.discount_price }} руб.</p>
                         {% else %}
                             <p class="product__item-price">{{ product.price }} руб.</p>
