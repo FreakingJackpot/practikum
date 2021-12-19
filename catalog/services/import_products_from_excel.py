@@ -76,7 +76,7 @@ class ExcelProductImporter:
             product.description = item['Описание']
             product.price = item['Цена']
             product.discount_price = item['Цена со скидкой']
-            product.active = True if item['Активен'] == 'Да' else False
+            product.active = True if item['Активен'].capitalize() == 'Да' else False
             product.manufacturer = manufacturer
             product.color.add(*colors)
             products_to_update.append(product)
@@ -104,6 +104,6 @@ class ExcelProductImporter:
 
     def _get_colors(self, item):
         colors = []
-        for name in item['Цвет'].split('/'):
+        for name in item['Цвет'].split('/').strip():
             colors.append(self.__get_model_obj(Color, name=name))
         return colors

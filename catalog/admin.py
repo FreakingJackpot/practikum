@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 from .models import Category, Product, AttributeValue, Attribute, Image, Manufacturer, Color, Request, Order
 from .forms import ExcelImportForm
-from .import_products_from_excel import ExcelProductImporter
+from catalog.services.import_products_from_excel import ExcelProductImporter
 
 
 @admin.register(Category)
