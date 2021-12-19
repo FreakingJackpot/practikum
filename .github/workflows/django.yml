@@ -1,0 +1,45 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python manage.py test
+
+  heroku_git_deploy_job:
+    runs-on: ubuntu-latest
+    name: Git Deploy job- A job to deploy django app to heroku using git
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Deploy django to heroku
+        uses: nyakaz73/heroku-django-deploy@v0.68 
+        with: 
+          heroku_app_name : ${{ secrets.HEROKU_APP_NAME }}
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_email_address: ${{ secrets.HEROKU_MAIL }}
+          use_git: true
+        
