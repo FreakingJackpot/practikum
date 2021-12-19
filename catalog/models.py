@@ -48,10 +48,9 @@ class Category(models.Model):
 
 class Image(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название', null=True, blank=True)
-    image_path = models.FileField(upload_to='images/', verbose_name='Изображение')
+    image = models.FileField(upload_to='images/', verbose_name='Изображение')
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар', null=True,
                                 related_name='image', blank=True)
-    url = models.CharField(max_length=300, null=True, blank=True, default=f'{settings.MEDIA_URL}images/{image_path}', )
 
     class Meta:
         db_table = 'images'
@@ -60,10 +59,6 @@ class Image(models.Model):
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.url = f'{settings.MEDIA_URL}images/{self.image_path}'
-        super(Image, self).save(*args, **kwargs)
 
 
 class Color(models.Model):

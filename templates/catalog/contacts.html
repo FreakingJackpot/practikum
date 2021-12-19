@@ -79,7 +79,7 @@
                         <a class="slider__sale-item"
                            href="{% url 'catalog:product_list' slug=sales_category.slug %}?sale=True">
                             <btn class="slider__sale-btn">Перейти</btn>
-                            <img class="slider__sale-img" src="{{ sales_category.sale_image.image_path.url }}" alt="">
+                            <img class="slider__sale-img" src="{{ sales_category.sale_image.image.url }}" alt="">
                         </a>
                     {% endfor %}
                     </a>
