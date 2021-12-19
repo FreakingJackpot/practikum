@@ -149,3 +149,5 @@ SHOW_TOOLBAR_CALLBACK = show_toolbar
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 django_heroku.settings(locals())
 
+USE_L10N = True
+USE_THOUSAND_SEPARATOR = True
