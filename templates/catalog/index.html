@@ -28,7 +28,7 @@
                             <div class="slider__inner">
                                 {% for product in page %}
                                     <a class="slider__item" href="product_detail.html">
-                                        <img class="slider-img" src="{{ product.image.url }}" alt="">
+                                        <img class="slider-img" src="{{ product.image.image_path.url }}" alt="">
                                         <h4 class="slider-title">
                                             {{ product.obj.name }}
                                         </h4>
@@ -48,7 +48,7 @@
             <div class="catalog-items">
                 {% for category in category_list %}
                     <a class="catalog-item" href="{{ category.get_absolute_url }}">
-                        <img class="catalog-img" src="{{ category.image.url }}" alt="">
+                        <img class="catalog-img" src="{{ category.image.image_path.url }}" alt="">
                         <div class="catalog-info">
                             <h3 class="catalog-title">{{ category.name }}</h3>
                             <img class="catalog-add" src="../../static/catalog/images/add.png" alt="">

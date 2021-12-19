@@ -8,7 +8,7 @@
             <div class="product__title"><span>{{ product.name }}</span></div>
             <div class="product__inner">
                 <div class="product__item">
-                    <img class="product__item-img" src="{{ product.image.all.0.url }}" alt="">
+                    <img class="product__item-img" src="{{ product.image.all.0.image_path.url }}" alt="">
                     <div class="product__item-info">
                         <div class="product__item-top">
                             <img class="product__item-icon" src="/static/catalog/images/product-icon.svg" alt="">
@@ -22,7 +22,7 @@
                         <div class="product__item-colors">
                             Цвет:
                             {% for color in product.color.all %}
-                                <img class="product__item-color" src="{{ color.preview.url }}" alt="">
+                                <img class="product__item-color" src="{{ color.preview.image_path.url }}" alt="">
                             {% endfor %}
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                         <a class="slider__sale-item"
                            href="{% url 'catalog:product_list' slug=sales_category.slug %}?sale=True">
                             <btn class="slider__sale-btn">Перейти</btn>
-                            <img class="slider__sale-img" src="{{ sales_category.sale_image.url }}" alt="">
+                            <img class="slider__sale-img" src="{{ sales_category.sale_image.image_path.url }}" alt="">
                         </a>
                     {% endfor %}
                     </a>
