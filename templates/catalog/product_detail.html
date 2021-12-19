@@ -8,7 +8,7 @@
             <div class="product__title"><span>{{ product.name }}</span></div>
             <div class="product__inner">
                 <div class="product__item">
-                    <img class="product__item-img" src="{{ product.image.all.0.image.url }}" alt="">
+                    <img class="product__item-img" src="{{ product.image.first.image.url }}" alt="">
                     <div class="product__item-info">
                         <div class="product__item-top">
                             <img class="product__item-icon" src="/static/catalog/images/product-icon.svg" alt="">
