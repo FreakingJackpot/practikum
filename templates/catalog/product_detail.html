@@ -20,12 +20,16 @@
                         {% else %}
                             <p class="product__item-price">{{ product.price }} руб.</p>
                         {% endif %}
-                        <div class="product__item-colors">
-                            Цвет:
-                            {% for color in product.color.all %}
-                                <img class="product__item-color" src="{{ color.preview.image.url }}" alt="">
-                            {% endfor %}
-                        </div>
+                        {% with colors=product.color.all %}
+                            {% if colors %}
+                                <div class="product__item-colors">
+                                    Цвет:
+                                    {% for color in product.color.all %}
+                                        <img class="product__item-color" src="{{ color.preview.image.url }}" alt="">
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endwith %}
                     </div>
                 </div>
                 <ol class="product__info">
