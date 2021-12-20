@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     'catalog',
     'storages',
     'debug_toolbar',
-    'g'
 
 ]
 
