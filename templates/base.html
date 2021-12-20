@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.GOOGLE_ANALYTICS_IDD }}"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_IDD }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -20,7 +20,7 @@
 
         gtag('js', new Date());
 
-        gtag('config', {{ settings.GOOGLE_ANALYTICS_IDD }});
+        gtag('config', {{ GOOGLE_ANALYTICS_IDD }});
     </script>
     <script src="https://cdn.websitepolicies.io/lib/cookieconsent/1.0.3/cookieconsent.min.js" defer></script>
     <script>window.addEventListener("load", function () {
