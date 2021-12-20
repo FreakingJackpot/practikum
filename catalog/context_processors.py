@@ -6,5 +6,5 @@ def categories(request):
     return {'category_list': Category.objects.select_related('image').all()}
 
 
-def settings(request):
+def analitics(request):
     return {'GOOGLE_ANALYTICS_IDD': settings.GOOGLE_ANALYTICS_IDD}
