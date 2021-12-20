@@ -9,6 +9,29 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.GOOGLE_ANALYTICS_IDD }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'YOURTAGID');
+    </script>
+    <script src="https://cdn.websitepolicies.io/lib/cookieconsent/1.0.3/cookieconsent.min.js" defer></script>
+    <script>window.addEventListener("load", function () {
+        window.wpcc.init({
+            "corners": "small",
+            "colors": {
+                "popup": {"background": "#ffffff", "text": "#2f2f2f", "border": "#1c1a19"},
+                "button": {"background": "#8f837c", "text": "#000000"}
+            }
+        })
+    });</script>
 </head>
 
 <body>
