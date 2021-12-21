@@ -141,7 +141,7 @@ class Attribute(models.Model):
 class AttributeValue(models.Model):
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Атрибут', related_name='value')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар', related_name='prod_attr_value')
-    value = models.TextField()
+    value = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'attribute_values'

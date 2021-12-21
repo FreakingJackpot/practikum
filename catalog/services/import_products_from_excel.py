@@ -92,8 +92,7 @@ class ExcelProductImporter:
 
     def _create_or_update_attr_value(self, product, attribute, item, values_to_create, values_to_update):
         value = item[attribute.name]
-        if not value:
-            return None
+
         defaults = {'product': product, 'attribute': attribute, 'value': value}
 
         queryset = AttributeValue.objects.filter(product=product, attribute=attribute)
