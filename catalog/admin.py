@@ -1,10 +1,16 @@
+from tempfile import NamedTemporaryFile
+from datetime import datetime
+
 from django.contrib import admin, messages
+from django.http import HttpResponse
 from django.urls import path
 from django.shortcuts import render, redirect
 
 from .models import Category, Product, AttributeValue, Attribute, Image, Manufacturer, Color, Request, Order
 from .forms import ExcelImportForm
+
 from catalog.services.import_products_from_excel import ExcelProductImporter
+from catalog.services.export_products import ExcelProductExporter
 
 
 @admin.register(Category)
@@ -23,6 +29,7 @@ class ProductAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             path('import-excel/', self.import_excel),
+            path('export-excel/', self.export_excel),
         ]
         return my_urls + urls
 
@@ -40,13 +47,38 @@ class ProductAdmin(admin.ModelAdmin):
         payload = {"form": form}
         return render(request, 'admin/excel_form.html', payload)
 
+    def export_excel(self, request):
+        exporter = ExcelProductExporter()
+        excel_file = exporter.run()
+
+        with NamedTemporaryFile(prefix='mebel', suffix='xlsx') as tmp:
+            excel_file.save(tmp.name)
+            tmp.seek(0)
+            stream = tmp.read()
+
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="mebel-%s.xls' % (
+            datetime.strftime(datetime.now(), '%d-%m-%Y-%H-%M'))
+        response['Cache-Control'] = 'no-cache,no-store,max-age=0,must-revalidate'
+        response.content = stream
+
+        return response
+
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
     exclude = ['url']
 
 
-admin.site.register(Attribute)
+@admin.register(Attribute)
+class AttributeAdmin(admin.ModelAdmin):
+    def save_related(self, request, form, formsets, change):
+        req_dict = vars(request)
+        super().save_related(request, form, formsets, change)
+        AttributeValue.objects.exclude(attribute__category__id__in=req_dict['_post']['category']).filter(
+            attribute__name=req_dict['_post']['name']).delete()
+
+
 admin.site.register(AttributeValue)
 admin.site.register(Manufacturer)
 admin.site.register(Color)
