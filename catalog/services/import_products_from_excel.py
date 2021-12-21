@@ -63,15 +63,24 @@ class ExcelProductImporter:
         AttributeValue.objects.bulk_update(values_to_update, ('value',))
 
     def _get_attributes(self, labels, category):
-        attributes_labels = filter(lambda x: x not in self.PRODUCT_FIELDS, labels)
-        attributes = list(Attribute.objects.filter(value__product__category=category))
-        attributes_names = set(attr.name for attr in attributes)
+        attributes_labels = set(filter(lambda x: x not in self.PRODUCT_FIELDS, labels))
+        attributes_map = {attr.name: attr for attr in Attribute.objects.filter(category=category)}
 
-        for label in attributes_labels:
-            if label not in attributes_names:
-                attributes.append(Attribute.objects.create(name=label))
+        to_delete = set(attributes_map.keys()) - set(attributes_labels)
+        for label in to_delete:
+            AttributeValue.objects.filter(attribute__category=category, attribute=attributes_map[label]).delete()
+            category.attribute.remove(attributes_map[label])
+            attributes_map.pop(label)
 
-        return attributes
+        to_create = set(attributes_labels) - set(attributes_map.keys())
+        new_attrs = []
+        for label in to_create:
+            attr, _ = Attribute.objects.get_or_create(name=label)
+            attributes_map[label] = attr
+            new_attrs.append(attr)
+        category.attribute.add(*new_attrs)
+
+        return attributes_map.values()
 
     def _create_or_update_product(self, item, category, manufacturer, colors, products_to_update):
         product = Product.objects.filter(vendor_code=item['Артикул'], category=category).first()

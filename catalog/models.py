@@ -127,6 +127,8 @@ class Product(models.Model):
 
 
 class Attribute(models.Model):
+    category = models.ManyToManyField(Category, related_name='attribute', verbose_name='Категория', null=True,
+                                      blank=True)
     name = models.CharField(max_length=300, verbose_name='Название')
 
     class Meta:
