@@ -38,7 +38,7 @@ class ExcelProductImporter:
         for cell in row:
             labels.append(cell.value.strip())
 
-        attributes = self._get_attributes(labels)
+        attributes = self._get_attributes(labels, category)
 
         for row in rows:
             item = {}.fromkeys(labels, None)
@@ -62,11 +62,15 @@ class ExcelProductImporter:
         AttributeValue.objects.bulk_create(values_to_create)
         AttributeValue.objects.bulk_update(values_to_update, ('value',))
 
-    def _get_attributes(self, labels):
-        attributes = []
+    def _get_attributes(self, labels, category):
         attributes_labels = filter(lambda x: x not in self.PRODUCT_FIELDS, labels)
+        attributes = list(Attribute.objects.filter(value__product__category=category))
+        attributes_names = set(attr.name for attr in attributes)
+
         for label in attributes_labels:
-            attributes.append(self.__get_model_obj(Attribute, name=label))
+            if label not in attributes_names:
+                attributes.append(Attribute.objects.create(name=label))
+
         return attributes
 
     def _create_or_update_product(self, item, category, manufacturer, colors, products_to_update):
@@ -91,7 +95,7 @@ class ExcelProductImporter:
         return product
 
     def _create_or_update_attr_value(self, product, attribute, item, values_to_create, values_to_update):
-        value = item[attribute.name]
+        value = item.get(attribute.name, None)
 
         defaults = {'product': product, 'attribute': attribute, 'value': value}
 
