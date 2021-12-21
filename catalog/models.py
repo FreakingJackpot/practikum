@@ -182,3 +182,8 @@ class Order(models.Model):
         db_table = 'orders'
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
+
+class Settings(models.Model):
+    key = models.CharField(max_length=255)
+    value = models.TextField()

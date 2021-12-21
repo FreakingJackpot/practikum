@@ -1,7 +1,11 @@
 from django.views.generic import ListView, DetailView, TemplateView
 from django.http import HttpResponseRedirect
+from django.urls import reverse
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from practikum.settings import SENDGRID_API_KEY, SENDGRID_MAIL_FROM
 
-from .models import Category, Product, AttributeValue
+from .models import Category, Product, AttributeValue, Settings
 from .forms import RequestForm
 
 
@@ -81,16 +85,26 @@ class ProductDetailView(DetailView):
 
 
 def process_request_form(request):
+    redirect_url = request.POST.get('next')
     if request.method == 'POST':
-        redirect_url = request.POST.get('next')
 
         data = {'phone': request.POST.get('phone'), 'name': request.POST.get('name'),
                 'comment': request.POST.get('comment')}
         form_data = RequestForm(data)
 
         if form_data.is_valid():
-            form_data.save()
-            redirect_url = request.POST.get('next')
-            return HttpResponseRedirect(redirect_url)
+            request_obj = form_data.save()
 
+            setting = Settings.objects.get(key='request_emails')
+            emails = setting.value.split(',')
+
+            content = request.build_absolute_uri(reverse('admin:catalog_request_change', args=(request_obj.id,)))
+
+            message = Mail(from_email=SENDGRID_MAIL_FROM, to_emails=emails, subject='Новая заявка',
+                           html_content=content)
+
+            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            sg.send(message)
         return HttpResponseRedirect(redirect_url)
+
+    return HttpResponseRedirect(redirect_url)
