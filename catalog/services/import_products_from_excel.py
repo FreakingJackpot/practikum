@@ -57,7 +57,8 @@ class ExcelProductImporter:
             for attribute in attributes:
                 self._create_or_update_attr_value(product, attribute, item, values_to_create, values_to_update)
 
-        Product.objects.bulk_update(products_to_update, ('description', 'price', 'manufacturer'))
+        Product.objects.bulk_update(products_to_update,
+                                    ('price', 'manufacturer', 'description', 'vendor_code', 'discount_price', 'active'))
 
         AttributeValue.objects.bulk_create(values_to_create)
         AttributeValue.objects.bulk_update(values_to_update, ('value',))
