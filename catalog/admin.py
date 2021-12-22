@@ -57,7 +57,7 @@ class ProductAdmin(admin.ModelAdmin):
             stream = tmp.read()
 
         response = HttpResponse(content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'attachment; filename="mebel-%s.xls' % (
+        response['Content-Disposition'] = 'attachment; filename="mebel-%s.xlsx' % (
             datetime.strftime(datetime.now(), '%d-%m-%Y-%H-%M'))
         response['Cache-Control'] = 'no-cache,no-store,max-age=0,must-revalidate'
         response.content = stream

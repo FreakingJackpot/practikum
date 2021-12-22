@@ -31,7 +31,7 @@ class ExcelProductExporter:
             values[4] = product.price
             values[5] = product.discount_price
             values[6] = '/'.join(color.name for color in product.color.all())
-            values[7] = product.active
+            values[7] = 'Да' if product.active else 'Нет'
 
             for value in product.prod_attr_value.all():
                 attr_name = value.attribute.name
