@@ -64,6 +64,12 @@ class ProductAdmin(admin.ModelAdmin):
 
         return response
 
+    def save_related(self, request, form, formsets, change):
+        req_dict = vars(request)
+        super().save_related(request, form, formsets, change)
+        AttributeValue.objects.exclude(attribute__category__id__in=req_dict['_post']['category']).filter(
+            product__vendor_code=req_dict['_post']['vendor_code']).delete()
+
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
