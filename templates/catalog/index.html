@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load filters %}
 {% block menu %}
     <nav class="menu">
         <ul class="menu__list">
@@ -28,13 +29,16 @@
                             <div class="slider__inner">
                                 {% for product in page %}
                                     <a class="slider__item" href="{{ product.obj.get_absolute_url }}">
-                                        <img class="slider-img" src="{{ product.image.image.url }}" width="500" height="240" alt="" >
+                                        <img class="slider-img" src="{{ product.image.image.url }}" width="500"
+                                             height="240" alt="">
                                         <h4 class="slider-title">
                                             {{ product.obj.name }}
                                         </h4>
                                         <div class="slider-price">
-                                            <p class="slider-oldPrice"><s>{{ product.obj.price }} руб.</s></p>
-                                            <p class="slider-newPrice">{{ product.obj.discount_price }} руб.</p>
+                                            <p class="slider-oldPrice"><s>{{ product.obj.price|decimalspace }} руб.</s>
+                                            </p>
+                                            <p class="slider-newPrice">{{ product.obj.discount_price|decimalspace }}
+                                                руб.</p>
                                         </div>
                                     </a>
                                 {% endfor %}

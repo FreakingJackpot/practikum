@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load filters %}
 
 {% block content %}
     <main class="main">
@@ -15,18 +16,18 @@
                             <p class="product__item-text">Сборка и доставка за несколько дней</p>
                         </div>
                         {% if product.discount_price %}
-                            <p class="product__item-price">{{ product.discount_price }} руб.</p>
+                            <p class="product__item-price">{{ product.discount_price |decimalspace }} руб.</p>
                         {% else %}
-                            <p class="product__item-price">{{ product.price }} руб.</p>
+                            <p class="product__item-price">{{ product.price|decimalspace }} руб.</p>
                         {% endif %}
                         {% with colors=product.color.all %}
                             {% if colors %}
-                            <div class="product__item-colors">
-                                Цвет:
-                                {% for color in product.color.all %}
-                                    <img class="product__item-color" src="{{ color.preview.image.url }}" alt="">
-                                {% endfor %}
-                            </div>
+                                <div class="product__item-colors">
+                                    Цвет:
+                                    {% for color in product.color.all %}
+                                        <img class="product__item-color" src="{{ color.preview.image.url }}" alt="">
+                                    {% endfor %}
+                                </div>
                             {% endif %}
                         {% endwith %}
                     </div>

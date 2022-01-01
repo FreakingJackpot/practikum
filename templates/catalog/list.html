@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load filters %}
 {% block header_image %}
     <img class="header__image" src="../../static/catalog/images/content/header__image-about.jpg" alt="">
 {% endblock %}
@@ -12,10 +13,11 @@
                         <img class="category__item-img" src="{{ product.image.first.image.url }}" alt="">
                         <h3 class="category__item-title">{{ product.name }}</h3>
                         {% if product.discount_price %}
-                            <div class="category__item-price"><s>{{ product.price }} руб.</s></div>
-                            <div class="category__item-discount_price">{{ product.discount_price }} руб.</div>
+                            <div class="category__item-price"><s>{{ product.price|decimalspace }} руб.</s></div>
+                            <div class="category__item-discount_price">{{ product.discount_price|decimalspace }} руб.
+                            </div>
                         {% else %}
-                            <div class="category__item-price">{{ product.price }} руб.</div>
+                            <div class="category__item-price">{{ product.price|decimalspace }} руб.</div>
                         {% endif %}
                     </a>
                 {% endfor %}

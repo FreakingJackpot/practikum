@@ -37,7 +37,7 @@
 <body>
 <header class="header">
     <div class="header__inner">
-        <a class="header__logo" href="">
+        <a class="header__logo" href="{% url 'index' %}">
             <img src="{% static '/catalog/images/logo.png' %}" alt="logo">
         </a>
         {% block menu %}
