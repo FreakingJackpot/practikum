@@ -151,6 +151,8 @@ class Product(models.Model):
         return AttributeValue.objects.select_related('attribute').filter(product=self, value__isnull=False)
 
 
+
+
 class Attribute(models.Model):
     category = models.ManyToManyField(Category, related_name='attribute', verbose_name='Категория', blank=True)
     name = models.CharField(max_length=300, verbose_name='Название')
