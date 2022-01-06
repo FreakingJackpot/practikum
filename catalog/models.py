@@ -34,19 +34,14 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('catalog:product_list', kwargs={'slug': self.slug})
+
     def save(self, *args, **kwargs):
         if not self.slug:
             value = self.name
             self.slug = slugify(value)
         super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse('catalog:product_list', kwargs={'slug': self.slug})
-
-    @classmethod
-    def get_sales_categories(cls):
-        return cls.objects.select_related('sale_image').filter(product__discount_price__gt=0,
-                                                               product__active=True)
 
 
 class Image(models.Model):
@@ -118,10 +113,6 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.vendor_code}, {self.name}'
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.vendor_code)
-        super(Product, self).save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse('catalog:product_detail', args=[str(self.slug)])
 
@@ -130,24 +121,9 @@ class Product(models.Model):
 
         return '/'.join(color.name for color in colors)
 
-    @classmethod
-    def get_sales_for_sales_bar(cls):
-        sales = cls.objects.prefetch_related('image').filter(discount_price__gt=0, active=True)[:9]
-
-        paginated_sales = [] if sales else None
-        page = -1
-
-        for index, sale in enumerate(sales):
-            if not index or index % 3 == 0:
-                paginated_sales.append([])
-                page += 1
-
-            paginated_sales[page].append({'obj': sale, 'image': sale.image.first()})
-
-        return paginated_sales
-
-    def get_attributes_values(self):
-        return AttributeValue.objects.select_related('attribute').filter(product=self, value__isnull=False)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.vendor_code)
+        super(Product, self).save(*args, **kwargs)
 
 
 class Attribute(models.Model):

@@ -13,13 +13,21 @@ class IndexTemplateView(TemplateView):
     template_name = 'catalog/index.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        kwargs.setdefault('view', self)
         if self.extra_context is not None:
-            context.update(self.extra_context)
+            kwargs.update(self.extra_context)
 
-        context['sales'] = Product.get_sales_for_sales_bar()
+        sales = Product.objects.prefetch_related('image').filter(discount_price__gt=0, active=True)[:9]
+        kwargs['sales'] = [[], ] if sales else None
+        page = 0
 
-        return context
+        for index, sale in enumerate(sales):
+            if index != 0 and index % 3 == 0:
+                kwargs['sales'].append([])
+                page += 1
+            kwargs['sales'][page].append({'obj': sale, 'image': sale.image.first()})
+
+        return kwargs
 
 
 class AboutTemplateView(TemplateView):
@@ -35,7 +43,8 @@ class ContactTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        sales_categories = Category.get_sales_categories()
+        sales_categories = Category.objects.select_related('sale_image').filter(product__discount_price__gt=0,
+                                                                                product__active=True)
         context['sales_categories'] = sales_categories
         return context
 
@@ -66,9 +75,11 @@ class ProductDetailView(DetailView):
         product = Product.objects.prefetch_related('color__preview', 'image').select_related(
             'category', 'manufacturer').get(slug=kwargs['slug'])
 
-        values = product.get_attributes_values()
+        values = AttributeValue.objects.select_related('attribute').filter(product=product, value__isnull=False)
 
-        sales_categories = Category.get_sales_categories()
+        sales_categories = Category.objects.select_related('sale_image').filter(product__discount_price__gt=0,
+                                                                                product__active=True,
+                                                                                sale_image__isnull=False)
 
         return self.render_to_response({'product': product, 'values': values, 'sales_categories': sales_categories})
 
