@@ -77,13 +77,13 @@ class Color(models.Model):
         return self.name
 
 
-class Manufacturer(models.Model):
+class Vendor(models.Model):
     name = models.CharField(max_length=300, verbose_name='Название')
     phone = models.CharField(max_length=20, verbose_name='Номер телефона', null=True, blank=True)
     location = models.TextField()
 
     class Meta:
-        db_table = 'manufacturers'
+        db_table = 'vendors'
         verbose_name = 'Производитель'
         verbose_name_plural = 'Производители'
 
@@ -94,8 +94,8 @@ class Manufacturer(models.Model):
 class Product(models.Model):
     vendor_code = models.CharField(max_length=100, verbose_name='Артикул', unique=True)
     name = models.CharField(max_length=300, verbose_name='Название')
-    manufacturer = models.ForeignKey(Manufacturer, verbose_name='Производитель', null=True, related_name='product',
-                                     on_delete=models.CASCADE, blank=True)
+    vendor = models.ForeignKey(Vendor, verbose_name='Производитель', null=True, related_name='product',
+                               on_delete=models.CASCADE, blank=True)
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE, verbose_name='Категория')
     price = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True, verbose_name="Цена")
     color = models.ManyToManyField(Color, verbose_name='Цвет', blank=True)

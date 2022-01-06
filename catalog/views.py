@@ -74,7 +74,7 @@ class ProductDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         product = Product.objects.prefetch_related('color__preview', 'image').select_related(
-            'category', 'manufacturer').get(slug=kwargs['slug'])
+            'category', 'vendor').get(slug=kwargs['slug'])
 
         values = AttributeValue.objects.select_related('attribute').filter(product=product, value__isnull=False)
 

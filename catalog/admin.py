@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.urls import path
 from django.shortcuts import render, redirect
 
-from .models import Category, Product, AttributeValue, Attribute, Image, Manufacturer, Color, Request, Order, Settings
+from .models import Category, Product, AttributeValue, Attribute, Image, Vendor, Color, Request, Order, Settings
 from .forms import ExcelImportForm
 
 from catalog.services.import_products_from_excel import ExcelProductImporter
@@ -86,7 +86,7 @@ class AttributeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(AttributeValue)
-admin.site.register(Manufacturer)
+admin.site.register(Vendor)
 admin.site.register(Color)
 admin.site.register(Request)
 admin.site.register(Order)

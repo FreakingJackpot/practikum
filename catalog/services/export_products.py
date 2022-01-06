@@ -26,7 +26,7 @@ class ExcelProductExporter:
             values = dict.fromkeys(range(len(labels)))
             values[0] = product.vendor_code
             values[1] = product.name
-            values[2] = product.manufacturer.name
+            values[2] = product.vendor.name
             values[3] = product.description
             values[4] = product.price
             values[5] = product.discount_price

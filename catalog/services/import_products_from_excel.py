@@ -1,7 +1,7 @@
 from io import BytesIO
 
 from openpyxl import load_workbook
-from catalog.models import Category, Product, Color, Manufacturer, Attribute, AttributeValue
+from catalog.models import Category, Product, Color, Vendor, Attribute, AttributeValue
 
 
 class ExcelProductImporter:
@@ -51,14 +51,14 @@ class ExcelProductImporter:
             if item == {}.fromkeys(labels, None):
                 break
 
-            manufacturer = self.__get_model_obj(Manufacturer, name=item['Производитель'])
+            manufacturer = self.__get_model_obj(Vendor, name=item['Производитель'])
             colors = self._get_colors(item)
             product = self._create_or_update_product(item, category, manufacturer, colors, products_to_update)
             for attribute in attributes:
                 self._create_or_update_attr_value(product, attribute, item, values_to_create, values_to_update)
 
         Product.objects.bulk_update(products_to_update,
-                                    ('price', 'manufacturer', 'description', 'discount_price', 'active'))
+                                    ('price', 'vendor', 'description', 'discount_price', 'active'))
 
         AttributeValue.objects.bulk_create(values_to_create)
         AttributeValue.objects.bulk_update(values_to_update, ('value',))
@@ -94,7 +94,7 @@ class ExcelProductImporter:
             defaults = {'vendor_code': item['Артикул'], 'name': item['Название'], 'category': category,
                         'description': item['Описание'],
                         'price': item['Цена'], 'discount_price': item['Цена со скидкой'],
-                        'active': True if item['Активен'] == 'Да' else False, 'manufacturer': manufacturer}
+                        'active': True if item['Активен'] == 'Да' else False, 'vendor': manufacturer}
             product = Product.objects.create(**defaults)
             product.color.add(*colors)
 
@@ -115,8 +115,8 @@ class ExcelProductImporter:
         if activity != product.active:
             product.active = activity
             updates = True
-        if manufacturer != product.manufacturer:
-            product.manufacturer = manufacturer
+        if manufacturer != product.vendor:
+            product.vendor = manufacturer
             updates = True
         return updates
 
