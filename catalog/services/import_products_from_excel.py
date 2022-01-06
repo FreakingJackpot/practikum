@@ -58,7 +58,7 @@ class ExcelProductImporter:
                 self._create_or_update_attr_value(product, attribute, item, values_to_create, values_to_update)
 
         Product.objects.bulk_update(products_to_update,
-                                    ('price', 'manufacturer', 'description', 'vendor_code', 'discount_price', 'active'))
+                                    ('price', 'manufacturer', 'description', 'discount_price', 'active'))
 
         AttributeValue.objects.bulk_create(values_to_create)
         AttributeValue.objects.bulk_update(values_to_update, ('value',))
@@ -84,16 +84,12 @@ class ExcelProductImporter:
         return attributes_map.values()
 
     def _create_or_update_product(self, item, category, manufacturer, colors, products_to_update):
-        product = Product.objects.filter(vendor_code=item['Артикул'], category=category).first()
+        product = Product.objects.prefetch_related('color').filter(vendor_code=item['Артикул']).first()
         if product:
-            product.vendor_code = item['Артикул']
-            product.description = item['Описание']
-            product.price = item['Цена']
-            product.discount_price = item['Цена со скидкой']
-            product.active = True if item['Активен'].capitalize() == 'Да' else False
-            product.manufacturer = manufacturer
+            updates = self._check_product_attr_change(product, item, manufacturer)
             product.color.add(*colors)
-            products_to_update.append(product)
+            if updates:
+                products_to_update.append(product)
         else:
             defaults = {'vendor_code': item['Артикул'], 'name': item['Название'], 'category': category,
                         'description': item['Описание'],
@@ -103,6 +99,26 @@ class ExcelProductImporter:
             product.color.add(*colors)
 
         return product
+
+    def _check_product_attr_change(self, product, item, manufacturer):
+        updates = False
+        if item['Описание'] != product.description:
+            product.description = item['Описание']
+            updates = True
+        if item['Цена'] != product.price:
+            product.price = item['Цена']
+            updates = True
+        if item['Цена со скидкой'] != product.discount_price:
+            product.discount_price = item['Цена со скидкой']
+            updates = True
+        activity = True if item['Активен'].capitalize() == 'Да' else False
+        if activity != product.active:
+            product.active = activity
+            updates = True
+        if manufacturer != product.manufacturer:
+            product.manufacturer = manufacturer
+            updates = True
+        return updates
 
     def _create_or_update_attr_value(self, product, attribute, item, values_to_create, values_to_update):
         value = item.get(attribute.name, None)
