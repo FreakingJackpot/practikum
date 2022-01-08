@@ -126,6 +126,8 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
 
+
+
 class Attribute(models.Model):
     category = models.ManyToManyField(Category, related_name='attribute', verbose_name='Категория', blank=True)
     name = models.CharField(max_length=300, verbose_name='Название')

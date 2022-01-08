@@ -53,7 +53,11 @@ class ExcelProductImporter:
 
             manufacturer = self.__get_model_obj(Vendor, name=item['Производитель'])
             colors = self._get_colors(item)
-            product = self._create_or_update_product(item, category, manufacturer, colors, products_to_update)
+            try:
+                product = self._create_or_update_product(item, category, manufacturer, colors, products_to_update)
+            except ValueError as e:
+                return f'Не корректная цена или скидочная цена у продукта категории {category.name} ' \
+                       f'c артикулом {item["Артикул"]}'
             for attribute in attributes:
                 self._create_or_update_attr_value(product, attribute, item, values_to_create, values_to_update)
 
@@ -84,6 +88,9 @@ class ExcelProductImporter:
         return attributes_map.values()
 
     def _create_or_update_product(self, item, category, manufacturer, colors, products_to_update):
+        if not (item['Цена со скидкой'] or item['Цена']):
+            raise ValueError
+
         product = Product.objects.prefetch_related('color').filter(vendor_code=item['Артикул']).first()
         if product:
             updates = self._check_product_attr_change(product, item, manufacturer)
