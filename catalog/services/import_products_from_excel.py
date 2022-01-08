@@ -30,6 +30,7 @@ class ExcelProductImporter:
         products_to_update = []
         values_to_create = []
         values_to_update = []
+        values_ids_to_delete = []
         labels = []
 
         rows = iter(sheet.rows)
@@ -60,14 +61,15 @@ class ExcelProductImporter:
                 return f'Не корректная цена или скидочная цена у продукта категории {category.name} ' \
                        f'c артикулом {item["Артикул"]}'
 
-            for attribute in attributes:
-                self._create_or_update_attr_value(product, attribute, item, values_to_create, values_to_update)
+            self._create_or_update_attr_value(product, attributes, item, values_to_create, values_to_update,
+                                              values_ids_to_delete)
 
         Product.objects.bulk_update(products_to_update,
                                     ('price', 'vendor', 'description', 'discount_price', 'active'))
 
         AttributeValue.objects.bulk_create(values_to_create)
         AttributeValue.objects.bulk_update(values_to_update, ('value',))
+        AttributeValue.objects.filter(id__in=values_ids_to_delete).delete()
 
     def _get_attributes(self, labels, category):
         attributes_labels = set(filter(lambda x: x not in self.PRODUCT_FIELDS, labels))
@@ -97,6 +99,7 @@ class ExcelProductImporter:
         if product:
             updates = self._check_product_attr_change(product, item, manufacturer)
             product.color.add(*colors)
+
             if updates:
                 products_to_update.append(product)
         else:
@@ -104,12 +107,14 @@ class ExcelProductImporter:
                         'description': item['Описание'],
                         'price': item['Цена'], 'discount_price': item['Цена со скидкой'],
                         'active': True if item['Активен'] == 'Да' else False, 'vendor': manufacturer}
+
             product = Product.objects.create(**defaults)
             product.color.add(*colors)
 
         return product
 
-    def _check_product_attr_change(self, product, item, manufacturer):
+    @staticmethod
+    def _check_product_attr_change(product, item, manufacturer):
         updates = False
         if item['Описание'] != product.description:
             product.description = item['Описание']
@@ -129,18 +134,27 @@ class ExcelProductImporter:
             updates = True
         return updates
 
-    def _create_or_update_attr_value(self, product, attribute, item, values_to_create, values_to_update):
-        value = item.get(attribute.name, None)
+    @staticmethod
+    def _create_or_update_attr_value(product, attributes, item, values_to_create, values_to_update,
+                                     values_to_delete):
 
-        defaults = {'product': product, 'attribute': attribute, 'value': value}
+        current_attrs_values = AttributeValue.objects.select_related('attribute').filter(product=product)
+        attribute__value_map = {value.attribute.name: value for value in current_attrs_values}
 
-        queryset = AttributeValue.objects.filter(product=product, attribute=attribute)
-        if queryset:
-            attribute_value = queryset.first()
-            attribute_value.value = defaults['value']
-            values_to_update.append(attribute_value)
-        else:
-            values_to_create.append(AttributeValue(**defaults))
+        for attribute in attributes:
+            value = item.get(attribute.name, None)
+            attribute_value = attribute__value_map.get(attribute.name, None)
+
+            defaults = {'product': product, 'attribute': attribute, 'value': value}
+
+            if attribute_value:
+                if value:
+                    attribute_value.value = value
+                    values_to_update.append(attribute_value)
+                else:
+                    values_to_delete.append(attribute_value.id)
+            elif value:
+                values_to_create.append(AttributeValue(**defaults))
 
     def _get_colors(self, item):
         colors = []
