@@ -35,9 +35,7 @@ class ContactTemplateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        sales_categories = Category.objects.select_related('sale_image').filter(product__discount_price__gt=0,
-                                                                                product__active=True,
-                                                                                sale_image__isnull=False)
+        sales_categories = Category.get_sales_categories()
         context['sales_categories'] = sales_categories
         return context
 
@@ -70,9 +68,7 @@ class ProductDetailView(DetailView):
 
         values = AttributeValue.objects.select_related('attribute').filter(product=product, value__isnull=False)
 
-        sales_categories = Category.objects.select_related('sale_image').filter(product__discount_price__gt=0,
-                                                                                product__active=True,
-                                                                                sale_image__isnull=False)
+        sales_categories = Category.get_sales_categories()
 
         return self.render_to_response({'product': product, 'values': values, 'sales_categories': sales_categories})
 
