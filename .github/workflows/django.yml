@@ -57,8 +57,5 @@ jobs:
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_email_address: ${{ secrets.HEROKU_MAIL }}
-          healthcheck: "https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/health"
-          checkstring: "ok"
-          rollbackonhealthcheckfailed: true
           use_git: true
         
