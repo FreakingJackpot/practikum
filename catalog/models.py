@@ -70,7 +70,6 @@ class Image(models.Model):
 
 class Color(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название')
-    hex = models.CharField(max_length=20, null=True)
     preview = models.OneToOneField(Image, verbose_name='Изображение', on_delete=models.CASCADE, related_name='color',
                                    null=True, blank=True)
 

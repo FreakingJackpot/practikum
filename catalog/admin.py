@@ -6,7 +6,8 @@ from django.http import HttpResponse
 from django.urls import path
 from django.shortcuts import render, redirect
 
-from .models import Category, Product, AttributeValue, Attribute, Image, Vendor, Color, Request, Order, Settings
+from .models import Category, Product, AttributeValue, Attribute, Image, Vendor, Color, Request, Order, Settings, \
+    ORDER_STATUS_CHOICES, REQUESTS_CHOICES
 from .forms import ExcelImportForm
 
 from catalog.services.import_products_from_excel import ExcelProductImporter
@@ -19,11 +20,16 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class AttributeValueInline(admin.TabularInline):
+    model = AttributeValue
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
-    search_fields = ['name']
+    search_fields = ['name', 'vendor_code', ]
     change_list_template = "admin/product_changelist.html"
+    inlines = [AttributeValueInline]
 
     def get_urls(self):
         urls = super().get_urls()
@@ -85,19 +91,59 @@ class AttributeAdmin(admin.ModelAdmin):
             attribute__name=req_dict['_post']['name']).delete()
 
 
-admin.site.register(AttributeValue)
+@admin.register(AttributeValue)
+class AttributeValueAdmin(admin.ModelAdmin):
+    search_fields = ['product__name', 'product__vendor_code', ]
+
+
 admin.site.register(Vendor)
-admin.site.register(Color)
+
+
+@admin.register(Color)
+class ColorAdmin(admin.ModelAdmin):
+    search_fields = ['name', ]
+
+
+class RequestStatusListFilter(admin.SimpleListFilter):
+    title = ('Статус заявки')
+
+    parameter_name = 'status'
+
+    def lookups(self, request, model_admin):
+        return REQUESTS_CHOICES
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(status=self.value())
+        return queryset
 
 
 @admin.register(Request)
 class RequestAdmin(admin.ModelAdmin):
     list_display = ('phone', 'name', 'date', 'status')
+    search_fields = ['name', 'phone', 'date', ]
+    list_filter = [RequestStatusListFilter]
+
+
+class OrderStatusListFilter(admin.SimpleListFilter):
+    title = ('Статус заказа')
+
+    parameter_name = 'status'
+
+    def lookups(self, request, model_admin):
+        return ORDER_STATUS_CHOICES
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(status=self.value())
+        return queryset
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('phone', 'first_name', 'second_name', 'father_name', 'date', 'status')
+    search_fields = ['phone', 'first_name', 'second_name', 'father_name', 'date', ]
+    list_filter = [OrderStatusListFilter]
 
 
 @admin.register(Settings)
