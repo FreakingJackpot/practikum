@@ -126,8 +126,6 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
 
-
-
 class Attribute(models.Model):
     category = models.ManyToManyField(Category, related_name='attribute', verbose_name='Категория', blank=True)
     name = models.CharField(max_length=300, verbose_name='Название')
@@ -160,6 +158,7 @@ class Request(models.Model):
     name = models.CharField(max_length=300, verbose_name='Имя')
     comment = models.TextField(verbose_name='Комментарий')
     status = models.CharField(max_length=100, choices=REQUESTS_CHOICES, default='UNCOMPLETED', verbose_name='Статус')
+    date = models.DateTimeField(auto_now=True, null=True, blank=True, verbose_name='Дата создания запроса')
 
     class Meta:
         db_table = 'requests'
@@ -174,11 +173,12 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
                                       verbose_name="Итоговая цена")
     phone = models.CharField(max_length=20, null=True, verbose_name='Номер телефона', blank=True)
-    comment = models.TextField()
+    address = models.TextField(verbose_name='Адрес доставки', null=True, blank=True)
+    comment = models.TextField(verbose_name='Комментарий', null=True, blank=True)
     status = models.CharField(max_length=50, verbose_name='Статус заказа', choices=ORDER_STATUS_CHOICES,
                               default='UNCOMPLETED')
     products = models.ManyToManyField(Product, verbose_name='Заказанные продукты')
-    date = models.DateField(auto_now=True)
+    date = models.DateTimeField(auto_now=True, verbose_name='Дата создания заказа')
 
     class Meta:
         db_table = 'orders'

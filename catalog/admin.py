@@ -88,8 +88,16 @@ class AttributeAdmin(admin.ModelAdmin):
 admin.site.register(AttributeValue)
 admin.site.register(Vendor)
 admin.site.register(Color)
-admin.site.register(Request)
-admin.site.register(Order)
+
+
+@admin.register(Request)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ('phone', 'name', 'date', 'status')
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('phone', 'first_name', 'second_name', 'father_name', 'date', 'status')
 
 
 @admin.register(Settings)
