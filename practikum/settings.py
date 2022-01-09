@@ -132,6 +132,23 @@ def show_toolbar(request):
 
 SHOW_TOOLBAR_CALLBACK = show_toolbar
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'email': {
+            'class': 'catalog.log.EmailHandler'
+        }
+    },
+    'root': {
+        'handlers': ['console', 'email'],
+        'level': 'WARNING',
+    },
+}
+
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 GOOGLE_ANALYTICS_KEY = config('GOOGLE_ANALYTICS_KEY', None)
