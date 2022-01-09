@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import storages.backends.s3boto3
 from django.db.models import Prefetch
 import django_heroku
 from decouple import config
@@ -119,6 +120,11 @@ if config('S3', False):
     'https://mebelland-media.s3.eu-central-1.amazonaws.com/media/images/katalog1.png'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.eu-central-1.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
