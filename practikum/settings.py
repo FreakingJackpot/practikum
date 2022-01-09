@@ -6,9 +6,9 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-**(_peycd!af-$2$4dnzbp5wf4e%=gny%mm+*b&97_zuxsa828'
+SECRET_KEY = config('SECRET_KEY', '123')
 
-DEBUG = False
+DEBUG = config('DEBUG', False) == "TRUE"
 
 INTERNAL_IPS = [
     # ...
@@ -32,7 +32,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,22 +65,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'practikum.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ulgu_proj',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': config('DATABASE_NAME', 'ulgu_proj'),
+        'USER': config('DATABASE_USER', 'postgres'),
+        'PASSWORD': config('DATABASE_PASSWORD', 'postgres'),
+        'HOST': config('DATABASE_HOST', '127.0.0.1'),
+        'PORT': config('DATABASE_PORT', '5432'),
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -98,9 +91,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -111,8 +101,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
     STATIC_URL = '/static/'
     STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
@@ -151,8 +139,6 @@ GOOGLE_ANALYTICS_IDD = config('GOOGLE_ANALYTICS_IDD', None)
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY', None)
 SENDGRID_MAIL_FROM = config('SENDGRID_MAIL_FROM', None)
-
-
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 django_heroku.settings(locals())
