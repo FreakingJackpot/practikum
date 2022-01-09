@@ -152,7 +152,9 @@ GOOGLE_ANALYTICS_IDD = config('GOOGLE_ANALYTICS_IDD', None)
 SENDGRID_API_KEY = config('SENDGRID_API_KEY', None)
 SENDGRID_MAIL_FROM = config('SENDGRID_MAIL_FROM', None)
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 django_heroku.settings(locals())
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
