@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-**(_peycd!af-$2$4dnzbp5wf4e%=gny%mm+*b&97_zuxsa828'
 
-DEBUG =
+DEBUG = False
 
 INTERNAL_IPS = [
     # ...
