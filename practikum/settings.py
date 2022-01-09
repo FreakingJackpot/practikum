@@ -105,11 +105,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
     # STATIC_URL = '/static/'
-    STATIC_ROOT = str(BASE_DIR) + '/static/'
     STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
 
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
@@ -121,7 +118,7 @@ if config('S3', False):
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     AWS_LOCATION = 'static'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+    STATICFILES_STORAGE = 'hello_django.storage_backends.StaticStorage'
 
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
@@ -130,7 +127,6 @@ if config('S3', False):
 
 else:
     STATIC_URL = '/static/'
-    # STATIC_ROOT = str(BASE_DIR) + '/static/'
     STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
     MEDIA_ROOT = str(BASE_DIR) + '/media/'
     MEDIA_URL = '/media/'
@@ -152,10 +148,11 @@ def show_toolbar(request):
 SHOW_TOOLBAR_CALLBACK = show_toolbar
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
-django_heroku.settings(locals())
 
 GOOGLE_ANALYTICS_KEY = config('GOOGLE_ANALYTICS_KEY', None)
 GOOGLE_ANALYTICS_IDD = config('GOOGLE_ANALYTICS_IDD', None)
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY', None)
 SENDGRID_MAIL_FROM = config('SENDGRID_MAIL_FROM', None)
+
+django_heroku.settings(locals())
