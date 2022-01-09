@@ -108,9 +108,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
-    STATIC_URL = '/static/'
-    # STATIC_ROOT = str(BASE_DIR) + '/static/'
-    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+    # STATIC_URL = '/static/'
+    # # STATIC_ROOT = str(BASE_DIR) + '/static/'
+    # STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
 
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -120,6 +120,10 @@ if config('S3', False):
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.eu-central-1.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
     # s3 public media settings
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'practikum.storage_backends.PublicMediaStorage'
