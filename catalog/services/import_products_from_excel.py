@@ -9,6 +9,7 @@ class ExcelProductImporter:
 
     def __init__(self, file):
         self.file = file
+        self.name__color_ids_map = {color.name: color.id for color in Color.objects.all()}
 
     def run(self):
         wb = load_workbook(filename=BytesIO(self.file.read()), read_only=True)
@@ -53,10 +54,10 @@ class ExcelProductImporter:
                 break
 
             manufacturer = self.__get_model_obj(Vendor, name=item['Производитель'])
-            colors = self._get_colors(item)
+            colors_ids = self._get_colors(item)
 
             try:
-                product = self._create_or_update_product(item, category, manufacturer, colors, products_to_update)
+                product = self._create_or_update_product(item, category, manufacturer, colors_ids, products_to_update)
             except ValueError as e:
                 return f'Не корректная цена или скидочная цена у продукта категории {category.name} ' \
                        f'c артикулом {item["Артикул"]}'
@@ -91,14 +92,25 @@ class ExcelProductImporter:
 
         return attributes_map.values()
 
-    def _create_or_update_product(self, item, category, manufacturer, colors, products_to_update):
+    def _create_or_update_product(self, item, category, manufacturer, colors_ids, products_to_update):
         if not (item['Цена со скидкой'] or item['Цена']):
             raise ValueError
 
         product = Product.objects.prefetch_related('color').filter(vendor_code=item['Артикул']).first()
+        new_colors_ids = set(colors_ids)
+
         if product:
             updates = self._check_product_attr_change(product, item, manufacturer)
-            product.color.add(*colors)
+
+            current_colors_ids = set(color.id for color in product.color.all())
+
+            colors_to_remove = current_colors_ids - new_colors_ids
+            if colors_to_remove:
+                product.color.remove(*colors_to_remove)
+
+            colors_to_add = new_colors_ids - current_colors_ids
+            if colors_to_add:
+                product.color.add(*colors_to_add)
 
             if updates:
                 products_to_update.append(product)
@@ -109,7 +121,7 @@ class ExcelProductImporter:
                         'active': True if item['Активен'] == 'Да' else False, 'vendor': manufacturer}
 
             product = Product.objects.create(**defaults)
-            product.color.add(*colors)
+            product.color.add(*colors_ids)
 
         return product
 
@@ -157,7 +169,12 @@ class ExcelProductImporter:
                 values_to_create.append(AttributeValue(**defaults))
 
     def _get_colors(self, item):
-        colors = []
+        colors_ids = []
         for name in item['Цвет'].split('/'):
-            colors.append(self.__get_model_obj(Color, name=name.strip()))
-        return colors
+            cleaned_name = name.strip()
+            if cleaned_name in self.name__color_ids_map:
+                colors_ids.append(self.name__color_ids_map[cleaned_name])
+            else:
+                color = Color.objects.create(name=cleaned_name)
+                colors_ids.append(color.id)
+        return colors_ids
