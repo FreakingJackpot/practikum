@@ -2,6 +2,7 @@ from pathlib import Path
 from django.db.models import Prefetch
 import django_heroku
 from decouple import config
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -113,13 +114,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
-    if DEBUG:
-        STATIC_URL = '/static/'
-    else:
-        STATIC_URL = '/staticfiles/'
+    STATIC_URL = '/static/'
     # STATIC_ROOT = str(BASE_DIR) + '/static/'
-    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),
+                        os.path.join(BASE_DIR, 'staticfiles'))
+
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    WHITENOISE_USE_FINDERS = True
 
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -159,6 +160,5 @@ GOOGLE_ANALYTICS_IDD = config('GOOGLE_ANALYTICS_IDD', None)
 SENDGRID_API_KEY = config('SENDGRID_API_KEY', None)
 SENDGRID_MAIL_FROM = config('SENDGRID_MAIL_FROM', None)
 
-WHITENOISE_USE_FINDERS = True
 DEBUG_PROPAGATE_EXCEPTIONS = True
 django_heroku.settings(locals())
