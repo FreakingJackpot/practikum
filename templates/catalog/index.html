@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load filters %}
+{% load static %}
 {% block menu %}
     <nav class="menu">
         <ul class="menu__list">
@@ -22,7 +23,7 @@
     <main class="main">
         {% if sales %}
             <div class="sales">
-                <img class="title-img" src="../../static/catalog/images/title/title-sale.svg" alt="">
+                <img class="title-img" src="{% static 'catalog/images/title/title-sale.svg' %}" alt="">
                 <div class="slider">
                     {% for page in sales %}
                         <div class="slider-content">
@@ -55,13 +56,13 @@
                         <img class="catalog-img" src="{{ category.image.image.url }}" alt="">
                         <div class="catalog-info">
                             <h3 class="catalog-title">{{ category.name }}</h3>
-                            <img class="catalog-add" src="../../static/catalog/images/add.png" alt="">
+                            <img class="catalog-add" src="{% static 'catalog/images/add.png' %}" alt="">
                         </div>
                     </a>
                 {% endfor %}
             </div>
         </div>
-        <img class="title-img" src="../../static/catalog/images/title/title-map.svg" alt="">
-        <img src="../../static/catalog/images/map.jpg" alt="" class="image-map">
+        <img class="title-img" src="{% static 'catalog/images/title/title-map.svg' %}" alt="">
+        <img src="{% static 'catalog/images/map.jpg' %}" alt="" class="image-map">
     </main>
 {% endblock %}
