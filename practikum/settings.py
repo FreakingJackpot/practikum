@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-**(_peycd!af-$2$4dnzbp5wf4e%=gny%mm+*b&97_zuxsa828'
 
-DEBUG = False
+DEBUG =
 
 INTERNAL_IPS = [
     # ...
@@ -134,7 +134,7 @@ if config('S3', False):
 
 else:
     STATIC_URL = '/static/'
-    STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = '/media/'
 
