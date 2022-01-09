@@ -10,7 +10,12 @@ SECRET_KEY = 'django-insecure-**(_peycd!af-$2$4dnzbp5wf4e%=gny%mm+*b&97_zuxsa828
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+ALLOWED_HOSTS = ["*", ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -136,11 +141,6 @@ else:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-INTERNAL_IPS = [
-    # ...
-    '127.0.0.1',
-    # ...
-]
 
 
 def show_toolbar(request):
@@ -156,5 +156,7 @@ GOOGLE_ANALYTICS_IDD = config('GOOGLE_ANALYTICS_IDD', None)
 
 SENDGRID_API_KEY = config('SENDGRID_API_KEY', None)
 SENDGRID_MAIL_FROM = config('SENDGRID_MAIL_FROM', None)
+
+WHITENOISE_USE_FINDERS = True
 
 django_heroku.settings(locals())
