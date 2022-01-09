@@ -109,9 +109,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
     # STATIC_URL = '/static/'
-    # # STATIC_ROOT = str(BASE_DIR) + '/static/'
-
-    print('kek')
+    # STATIC_ROOT = str(BASE_DIR) + '/static/'
+    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
 
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -120,11 +119,9 @@ if config('S3', False):
     'https://mebelland-media.s3.eu-central-1.amazonaws.com/media/images/katalog1.png'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.eu-central-1.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-
     AWS_LOCATION = 'static'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
@@ -133,12 +130,9 @@ if config('S3', False):
 else:
     STATIC_URL = '/static/'
     # STATIC_ROOT = str(BASE_DIR) + '/static/'
-
+    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
     MEDIA_ROOT = str(BASE_DIR) + '/media/'
     MEDIA_URL = '/media/'
-
-STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
