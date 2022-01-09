@@ -109,7 +109,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
     # STATIC_URL = '/static/'
-    # STATIC_ROOT = str(BASE_DIR) + '/static/'
+    STATIC_ROOT = str(BASE_DIR) + '/static/'
     STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
 
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
