@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import storages.backends.s3boto3
 from django.db.models import Prefetch
 import django_heroku
 from decouple import config
@@ -125,7 +124,6 @@ if config('S3', False):
     AWS_LOCATION = 'static'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
 
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
@@ -135,9 +133,12 @@ if config('S3', False):
 else:
     STATIC_URL = '/static/'
     # STATIC_ROOT = str(BASE_DIR) + '/static/'
-    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+
     MEDIA_ROOT = str(BASE_DIR) + '/media/'
     MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
