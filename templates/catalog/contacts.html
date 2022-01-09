@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}
+    <title>Контакты</title>
+{% endblock %}
 
 {% block menu %}
     <nav class="menu">
@@ -21,20 +24,20 @@
 {% endblock %}
 
 {% block header_image %}
-    <img class="header__image" src="../../static/catalog/images/content/header__image-contact.jpg" alt="">
+    <img class="header__image" src="{% static 'catalog/images/content/header__image-contact.jpg' %}" alt="">
 {% endblock %}
 {% block content %}
     <main class="main">
         <section class="contacts">
-            <img class="title-img" src="../../static/catalog/images/title/title-contacts.svg" alt="">
+            <img class="title-img" src="{% static 'catalog/images/title/title-contacts.svg' %}" alt="">
             <div class="contacts__inner">
                 <p class="contacts-text"><b> Фактический адрес:</b> <br>
                     г. Ульяновск, проспект Хо Ши Мина, д. 1А, 2 этаж. <br>
                     Встреча в офисе по предварительному звонку.</p>
-                <img class="contacts-img" src="../../static/catalog/images/content/contacts_1.jpg" alt="">
+                <img class="contacts-img" src="{% static 'catalog/images/content/contacts_1.jpg' %}" alt="">
             </div>
             <div class="contacts__inner">
-                <img class="contacts-img" src="../../static/catalog/images/content/contacts_2.jpg" alt="">
+                <img class="contacts-img" src="{% static 'catalog/images/content/contacts_2.jpg' %}" alt="">
                 <div class="contacts__items">
                     <div class="contacts__item">
                         <h4 class="contacts__item-title">Почта: </h4>
@@ -52,18 +55,18 @@
                         <h4 class="contacts__item-title">Соц. сети: </h4>
                         <div class="contacts__item__social">
                             <a class="contacts__item__social-icon" href="">
-                                <img class="contacts__item__social-img" src="../../static/catalog/images/VK-black.png"
+                                <img class="contacts__item__social-img" src="{% static 'catalog/images/VK-black.png' %}"
                                      alt="">
                                 <p> Вконтакте </p>
                             </a>
                             <a class="contacts__item__social-icon" href="">
                                 <img class="contacts__item__social-img"
-                                     src="../../static/catalog/images/Viber-black.png" alt="">
+                                     src="{% static 'catalog/images/Viber-black.png' %}" alt="">
                                 <p> Viber </p>
                             </a>
                             <a class="contacts__item__social-icon" href="">
                                 <img class="contacts__item__social-img"
-                                     src="../../static/catalog/images/WhatsApp-black.png" alt="">
+                                     src="{% static 'catalog/images/WhatsApp-black.png' %}" alt="">
                                 <p> WhatsApp </p>
                             </a>
                         </div>

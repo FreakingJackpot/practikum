@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% load filters %}
-
+{% block title %}
+    <title>{{ product.name }}</title>
+{% endblock %}
 {% block content %}
     <main class="main">
         <section class="product">
@@ -12,7 +14,7 @@
                     <img class="product__item-img" src="{{ product.image.first.image.url }}" alt="">
                     <div class="product__item-info">
                         <div class="product__item-top">
-                            <img class="product__item-icon" src="/static/catalog/images/product-icon.svg" alt="">
+                            <img class="product__item-icon" src="{% static "catalog/images/product-icon.svg" %}" alt="">
                             <p class="product__item-text">Сборка и доставка за несколько дней</p>
                         </div>
                         {% if product.discount_price %}

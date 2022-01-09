@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load filters %}
+{% block title %}
+    <title>{{ category.name }}</title>
+{% endblock %}
 {% block header_image %}
     <img class="header__image" src="../../static/catalog/images/content/header__image-about.jpg" alt="">
 {% endblock %}
