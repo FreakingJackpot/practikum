@@ -26,6 +26,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -105,9 +106,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 if config('S3', False):
-    # STATIC_URL = '/static/'
-    # STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+    STATIC_URL = '/static/'
+    # STATIC_ROOT = str(BASE_DIR) + '/static/'
+    STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
     AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -116,10 +121,6 @@ if config('S3', False):
 
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.eu-central-1.amazonaws.com'
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_LOCATION = 'static'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-    STATICFILES_STORAGE = 'hello_django.storage_backends.StaticStorage'
-
     # s3 public media settings
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
@@ -127,12 +128,13 @@ if config('S3', False):
 
 else:
     STATIC_URL = '/static/'
+    # STATIC_ROOT = str(BASE_DIR) + '/static/'
     STATICFILES_DIRS = (str(BASE_DIR) + '/static/',)
     MEDIA_ROOT = str(BASE_DIR) + '/media/'
     MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-print(STATIC_URL)
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     # ...
